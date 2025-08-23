@@ -1,13 +1,11 @@
 #!/bin/bash
 
 # 定义本地文件夹路径
-LOCAL_FOLDER1="./dist"
-LOCAL_FOLDER2="./package-lock.json"
-LOCAL_FOLDER3="./package.json"
+LOCAL_FOLDER1="./src"
 # 定义远程服务器信息
 REMOTE_USER="root"
 REMOTE_IP="144.34.182.159"
-REMOTE_PATH="app/shipmentBackend"
+REMOTE_PATH="app/cctvapp"
 REMOTE_PORT="26964"
 
 
