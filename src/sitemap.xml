@@ -5,10 +5,9 @@
     <lastmod>2025-08-23</lastmod>
     <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://los-angeles-cctv.com/#services</loc>
-  </url>
-  <url>
-    <loc>https://los-angeles-cctv.com/#projects</loc>
-  </url>
+  <url><loc>https://los-angeles-cctv.com/#services</loc></url>
+  <url><loc>https://los-angeles-cctv.com/#projects</loc></url>
+  <url><loc>https://los-angeles-cctv.com/#process</loc></url>
+  <url><loc>https://los-angeles-cctv.com/#about</loc></url>
+  <url><loc>https://los-angeles-cctv.com/#contact</loc></url>
 </urlset>
