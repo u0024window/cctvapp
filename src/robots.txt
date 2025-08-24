@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://example.com/sitemap.xml
+Sitemap: https://los-angeles-cctv.com/sitemap.xml
