@@ -565,6 +565,30 @@
         </div>
       </div>
     </section>
+    <section id="testimonials" class="section">
+      <div class="container">
+        <h2>客户评价 · Testimonials</h2>
+        <p class="sub">以下是部分客户对我们服务的真实反馈</p>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>王先生 · 仓库项目</h3>
+            <div style="color:#facc15;font-size:18px;">★★★★★</div>
+            <p>“安装快速专业，监控画质清晰，布线很整齐。售后也很及时，推荐！”</p>
+          </div>
+          <div class="card">
+            <h3>李女士 · 奶茶店</h3>
+            <div style="color:#facc15;font-size:18px;">★★★★★</div>
+            <p>“前台和后厨都覆盖到，手机远程很方便。团队沟通顺畅，价格合理。”</p>
+          </div>
+          <div class="card">
+            <h3>David · Office</h3>
+            <div style="color:#facc15;font-size:18px;">★★★★★</div>
+            <p>“Great experience! Access control + CCTV integration works perfectly for our office.”</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
 
     <section id="faq" class="section">
       <div class="container">
@@ -654,7 +678,50 @@
     ]
   }
   </script>
-
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "洛杉矶安防 | Los Angeles Security",
+      "url": "https://los-angeles-cctv.com/",
+      "image": "https://los-angeles-cctv.com/logo.png",
+      "telephone": "+16268875151",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "SUIT #101 750 N DIAMOND BAR BLVD",
+        "addressLocality": "Diamond Bar",
+        "addressRegion": "CA",
+        "postalCode": "91765",
+        "addressCountry": "US"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "3"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": "王先生",
+          "reviewBody": "安装快速专业，监控画质清晰，布线很整齐。售后也很及时，推荐！",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        },
+        {
+          "@type": "Review",
+          "author": "李女士",
+          "reviewBody": "前台和后厨都覆盖到，手机远程很方便。团队沟通顺畅，价格合理。",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        },
+        {
+          "@type": "Review",
+          "author": "David",
+          "reviewBody": "Great experience! Access control + CCTV integration works perfectly for our office.",
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" }
+        }
+      ]
+    }
+    </script>
+    
   <script>
     function handleSubmit(e) {
       e.preventDefault();
@@ -668,6 +735,7 @@
       document.getElementById('form-status').textContent = "已打开邮件客户端，请发送。You can also call us directly.";
     }
   </script>
+
 </body>
 
 </html>
