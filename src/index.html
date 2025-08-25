@@ -328,13 +328,17 @@
   </style>
 
   <style>
+    figure {
+      margin: 5px;
+    }
+
     /* === Pro 无缝滚动相册 === */
     .gallery {
-      --h: 300px;
+      --h: 200px;
       /* 默认高度 */
-      --h-mobile: 220px;
+      --h-mobile: 140px;
       /* 移动端高度 */
-      --gap: 14px;
+      --gap: 6px;
       /* 卡片间距，可被 data-gap 覆盖 */
       --speed: 28s;
       /* 完整循环时长，可被 data-speed 覆盖 */
@@ -403,6 +407,16 @@
     @media (prefers-reduced-motion: reduce) {
       .gallery-track {
         animation: none;
+      }
+    }
+
+    @keyframes gallery-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(calc(-1 * var(--scrollWidth)));
       }
     }
   </style>
@@ -586,7 +600,7 @@
         <h2 id="clientsites-title">客户现场 · Client Sites</h2>
 
         <!-- 可调速度：data-speed=秒；data-gap=px -->
-        <div class="gallery" data-speed="28" data-gap="14" aria-label="客户现场滚动相册">
+        <div class="gallery" data-speed="10" data-gap="6" aria-label="客户现场滚动相册">
           <div class="gallery-track">
             <figure class="gallery-item"><img src="./img/C1.webp" alt="仓库出入口布防" loading="lazy" decoding="async"
                 fetchpriority="low"></figure>
@@ -849,45 +863,49 @@
 
   <!-- 图片滚动播放 -->
   <script>
-    (function(){
+    (function () {
       const el = document.querySelector('.gallery');
-      if(!el) return;
+      if (!el) return;
       const track = el.querySelector('.gallery-track');
       const items = Array.from(track.children);
-    
+      // 在 JS 里加：计算总宽度
+      const width = track.scrollWidth / 2; // 因为克隆了一份
+      el.style.setProperty('--scrollWidth', width + 'px');
       // 读自定义参数
       const speed = Number(el.dataset.speed || 28);
       const gap = Number(el.dataset.gap || 14);
       el.style.setProperty('--speed', `${speed}s`);
       el.style.setProperty('--gap', `${gap}px`);
-    
+
       // 计算并克隆一份以实现 -50% 无缝轮播
-      const trackWidth = () => Array.from(track.children).reduce((w, node)=>{
+      const trackWidth = () => Array.from(track.children).reduce((w, node) => {
         const rect = node.getBoundingClientRect();
         return w + rect.width;
       }, 0);
-    
+
       // 先渲染一次让宽度稳定
-      requestAnimationFrame(()=>{
+      requestAnimationFrame(() => {
         const clone = document.createDocumentFragment();
         items.forEach(node => clone.appendChild(node.cloneNode(true)));
         track.appendChild(clone);
       });
-    
+
       // 离屏/隐藏暂停（Intersection + visibility）
       const pause = () => track.style.animationPlayState = 'paused';
-      const play  = () => track.style.animationPlayState = 'running';
-    
-      const io = new IntersectionObserver(entries=>{
+      const play = () => track.style.animationPlayState = 'running';
+
+      const io = new IntersectionObserver(entries => {
         entries.forEach(e => { e.isIntersecting ? play() : pause(); });
-      }, {threshold: 0.01});
+      }, { threshold: 0.01 });
       io.observe(el);
-    
-      document.addEventListener('visibilitychange', ()=>{
+
+      document.addEventListener('visibilitychange', () => {
         document.hidden ? pause() : play();
-      }, {passive:true});
+      }, { passive: true });
     })();
-    </script>    
+
+
+  </script>
 
 </body>
 
