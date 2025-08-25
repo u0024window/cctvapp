@@ -328,56 +328,82 @@
   </style>
 
   <style>
-     .photo-gallery {
-      overflow: hidden;
-      white-space: nowrap;
-      padding: 0;
+    /* === Pro 无缝滚动相册 === */
+    .gallery {
+      --h: 300px;
+      /* 默认高度 */
+      --h-mobile: 220px;
+      /* 移动端高度 */
+      --gap: 14px;
+      /* 卡片间距，可被 data-gap 覆盖 */
+      --speed: 28s;
+      /* 完整循环时长，可被 data-speed 覆盖 */
       position: relative;
-      height: 300px;
+      overflow: hidden;
       margin: 1rem 0;
+      height: var(--h);
+      mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
     }
 
-    .photo-gallery-container {
-      display: inline-block;
-      white-space: nowrap;
-      animation: scrollGallery 30s linear infinite;
+    @media (max-width: 860px) {
+      .gallery {
+        height: var(--h-mobile);
+      }
+    }
+
+    .gallery-track {
+      display: flex;
+      align-items: stretch;
       height: 100%;
+      gap: var(--gap);
+      will-change: transform;
+      animation: gallery-scroll var(--speed) linear infinite;
     }
 
-    @keyframes scrollGallery {
-      0% {
-        transform: translateX(0);
-      }
-      100% {
-        transform: translateX(-100%);
-      }
-    }
-
-    .photo-gallery:hover .photo-gallery-container {
+    .gallery:hover .gallery-track {
       animation-play-state: paused;
     }
 
-    .photo-item {
-      display: inline-block;
-      margin-right: 1rem;
-      transition: transform 0.3s ease;
-      height: 100%;
+    @keyframes gallery-scroll {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+
+      /* 轨道内容将被克隆到两倍，用 -50% 实现无缝 */
     }
 
-    .photo-item:hover {
-      transform: scale(1.05);
+    .gallery-item {
+      flex: 0 0 auto;
+      height: 100%;
+      aspect-ratio: 16/9;
+      /* 统一视图比例，避免抖动 */
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f1f5f9;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+      transition: transform .25s ease;
     }
 
-    .photo-item img {
+    .gallery-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .gallery-item img {
+      width: 100%;
       height: 100%;
-      width: auto;
-      border-radius: 0.5rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       object-fit: cover;
+      display: block;
     }
 
-    .section-container .content-box {
-      padding: 2rem;
+    /* 减少动效（无障碍） */
+    @media (prefers-reduced-motion: reduce) {
+      .gallery-track {
+        animation: none;
+      }
     }
   </style>
 
@@ -555,65 +581,35 @@
     </section>
 
     <!-- Photo Gallery Section -->
-<section class="section">
-  <div class="container">
-    <h2>客户现场 · Client Sites</h2>
-    <div class="photo-gallery">
-      <div class="photo-gallery-container">
-        <div class="photo-item">
-          <img src="./img/C1.webp" alt="敬拜赞美">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C2.webp" alt="教会活动">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C3.jpg" alt="祷告会">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C4.webp" alt="家庭活动">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C5.jpg" alt="团契生活">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C6.JPG" alt="儿童事工">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C7.webp" alt="敬拜赞美">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C8.webp" alt="教会活动">
-        </div>
-        <!-- 复制第一组图片以实现无缝滚动 -->
-        <div class="photo-item">
-          <img src="./img/C1.webp" alt="敬拜赞美">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C2.webp" alt="教会活动">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C3.jpg" alt="祷告会">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C4.webp" alt="家庭活动">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C5.jpg" alt="团契生活">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C6.JPG" alt="儿童事工">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C7.webp" alt="敬拜赞美">
-        </div>
-        <div class="photo-item">
-          <img src="./img/C8.webp" alt="教会活动">
+    <section class="section" aria-labelledby="clientsites-title">
+      <div class="container">
+        <h2 id="clientsites-title">客户现场 · Client Sites</h2>
+
+        <!-- 可调速度：data-speed=秒；data-gap=px -->
+        <div class="gallery" data-speed="28" data-gap="14" aria-label="客户现场滚动相册">
+          <div class="gallery-track">
+            <figure class="gallery-item"><img src="./img/C1.webp" alt="仓库出入口布防" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C2.webp" alt="店铺前台摄像头" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C3.jpg" alt="园区周界摄像头" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C4.webp" alt="机柜与交换机整理" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C5.jpg" alt="后厨走线与防水盒" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C6.JPG" alt="门禁磁力锁安装" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C7.webp" alt="停车场广角覆盖" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+            <figure class="gallery-item"><img src="./img/C8.webp" alt="收银POS重点监控" loading="lazy" decoding="async"
+                fetchpriority="low"></figure>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-    
+    </section>
+
+
 
     <section id="process" class="section">
       <div class="container">
@@ -853,105 +849,45 @@
 
   <!-- 图片滚动播放 -->
   <script>
-    (function () {
-      const carousel = document.querySelector('.carousel');
-      if (!carousel) return;
-
-      const track = carousel.querySelector('.carousel-track');
-      const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
-      const prevBtn = carousel.querySelector('.carousel-btn.prev');
-      const nextBtn = carousel.querySelector('.carousel-btn.next');
-      const dotsBox = carousel.querySelector('.carousel-dots');
-
-      let index = 0;
-      let autoplayTimer = null;
-      const interval = 4000; // 自动播放间隔（毫秒）
-      const slideTo = (i, smooth = true) => {
-        index = (i + slides.length) % slides.length;
-        track.style.transition = smooth ? 'transform .4s ease' : 'none';
-        track.style.transform = `translateX(-${index * 100}%)`;
-        updateDots();
-      };
-
-      // 生成圆点
-      slides.forEach((_, i) => {
-        const b = document.createElement('button');
-        b.className = 'carousel-dot';
-        b.type = 'button';
-        b.setAttribute('aria-label', `跳到第 ${i + 1} 张`);
-        b.addEventListener('click', () => { stopAutoplay(); slideTo(i); startAutoplay(); });
-        dotsBox.appendChild(b);
+    (function(){
+      const el = document.querySelector('.gallery');
+      if(!el) return;
+      const track = el.querySelector('.gallery-track');
+      const items = Array.from(track.children);
+    
+      // 读自定义参数
+      const speed = Number(el.dataset.speed || 28);
+      const gap = Number(el.dataset.gap || 14);
+      el.style.setProperty('--speed', `${speed}s`);
+      el.style.setProperty('--gap', `${gap}px`);
+    
+      // 计算并克隆一份以实现 -50% 无缝轮播
+      const trackWidth = () => Array.from(track.children).reduce((w, node)=>{
+        const rect = node.getBoundingClientRect();
+        return w + rect.width;
+      }, 0);
+    
+      // 先渲染一次让宽度稳定
+      requestAnimationFrame(()=>{
+        const clone = document.createDocumentFragment();
+        items.forEach(node => clone.appendChild(node.cloneNode(true)));
+        track.appendChild(clone);
       });
-      const updateDots = () => {
-        Array.from(dotsBox.children).forEach((d, i) => {
-          d.classList.toggle('active', i === index);
-        });
-      };
-
-      // 按钮事件
-      prevBtn.addEventListener('click', () => { stopAutoplay(); slideTo(index - 1); startAutoplay(); });
-      nextBtn.addEventListener('click', () => { stopAutoplay(); slideTo(index + 1); startAutoplay(); });
-
-      // 触摸/拖拽
-      let startX = 0, currentX = 0, dragging = false;
-      const viewport = carousel.querySelector('.carousel-viewport');
-
-      const onDown = (x) => {
-        dragging = true;
-        startX = x;
-        currentX = x;
-        stopAutoplay();
-        track.style.transition = 'none';
-      };
-      const onMove = (x) => {
-        if (!dragging) return;
-        currentX = x;
-        const dx = currentX - startX;
-        track.style.transform = `translateX(calc(-${index * 100}% + ${dx}px))`;
-      };
-      const onUp = () => {
-        if (!dragging) return;
-        const dx = currentX - startX;
-        const threshold = viewport.clientWidth * 0.15; // 15% 宽度阈值
-        if (dx > threshold) slideTo(index - 1);
-        else if (dx < -threshold) slideTo(index + 1);
-        else slideTo(index, true);
-        dragging = false;
-        startAutoplay();
-      };
-
-      // Mouse
-      viewport.addEventListener('mousedown', (e) => onDown(e.clientX));
-      window.addEventListener('mousemove', (e) => onMove(e.clientX));
-      window.addEventListener('mouseup', onUp);
-      // Touch
-      viewport.addEventListener('touchstart', (e) => onDown(e.touches[0].clientX), { passive: true });
-      viewport.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX), { passive: true });
-      viewport.addEventListener('touchend', onUp);
-
-      // 自动播放（悬停暂停）
-      const startAutoplay = () => {
-        if (autoplayTimer) return;
-        autoplayTimer = setInterval(() => slideTo(index + 1), interval);
-      };
-      const stopAutoplay = () => {
-        clearInterval(autoplayTimer);
-        autoplayTimer = null;
-      };
-      carousel.addEventListener('mouseenter', stopAutoplay);
-      carousel.addEventListener('mouseleave', startAutoplay);
-
-      // 首次渲染
-      slideTo(0, false);
-      startAutoplay();
-
-      // 无障碍键盘支持
-      carousel.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { stopAutoplay(); slideTo(index - 1); startAutoplay(); }
-        if (e.key === 'ArrowRight') { stopAutoplay(); slideTo(index + 1); startAutoplay(); }
-      });
+    
+      // 离屏/隐藏暂停（Intersection + visibility）
+      const pause = () => track.style.animationPlayState = 'paused';
+      const play  = () => track.style.animationPlayState = 'running';
+    
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e => { e.isIntersecting ? play() : pause(); });
+      }, {threshold: 0.01});
+      io.observe(el);
+    
+      document.addEventListener('visibilitychange', ()=>{
+        document.hidden ? pause() : play();
+      }, {passive:true});
     })();
-  </script>
+    </script>    
 
 </body>
 
